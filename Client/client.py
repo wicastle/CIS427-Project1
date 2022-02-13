@@ -1,7 +1,9 @@
 import socket
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client.connect(('127.0.0.1', 55555))
+ip = '127.0.0.1'
+port = 55555
+client.connect((ip, port))
 
 
 def receive():
@@ -14,7 +16,7 @@ def receive():
             print(str)
             str = 'Server: '
             msg = f'{input("")}'
-            print('ECHO: ' + msg)
+            #print('ECHO: ' + msg)
             client.send(msg.encode('ascii'))
         except:
             print("An Error Occurred!")

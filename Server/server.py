@@ -31,6 +31,15 @@ for login in logins:
     print(logins[count][0] + logins[count][1])
     count += 1
 
+def file_empty(file_name):
+    # Reading first character to check file is empty or not
+    with open(file_name, 'r') as read_obj:
+        one_char = read_obj.read(1)
+        # if first character not found then file is empty
+        if not one_char:
+           return True
+    return False
+
 
 def commands(client):
     # append to end of msg
@@ -45,14 +54,14 @@ def commands(client):
     while shutdown:
         try:
             msg_o = client.recv(1024).decode('ascii')
+            #echo
+            print('ECHO: ' + msg_o)
             msg = msg_o + endmsg
-            print(f'{msg}')
             #COMMANDS
             try:
                 lhs, rhs = msg.split(' ', 1)
                 if lhs == 'LOGIN':
                     user, pws, end = rhs.split(' ', 3)
-                    print('login')
                     #counter vars
                     senti = False
                     count = 0
@@ -171,12 +180,11 @@ def commands(client):
                                                             file_qiang.close()
                                         else:
                                             num2, x = end.split(' ', 1)
-                                            prim = 2 * num1 + 2 * num2
+                                            prim = 2 * float(num1) + 2 * float(num2)
                                             prim = round(prim, 2)
-                                            area = num1 * num2
+                                            area = float(num1) * float(num2)
                                             area = round(area, 2)
-                                            result = 'Rectangle`s perimeter is ' \
-                                                     + str(prim) + ' and area is ' + str(area)
+                                            result = 'Rectangle`s perimeter is ' + str(prim) + ' and area is ' + str(area)
                                             client.send(result.encode('ascii'))
                                             # write solution to file
                                             if root:
@@ -213,41 +221,53 @@ def commands(client):
                                     if root:
                                         fileLines = []
                                         fileReturn = ''
-                                        with open('root_solutions.txt') as file:
-                                            fileLines = file.readlines()
-                                        file.close()
-                                        for fileLine in fileLines:
-                                            fileReturn += '\t' + fileLine
+                                        if file_empty('root_solutions.txt'):
+                                            fileReturn = '\tNo interactions yet\n'
+                                        else:
+                                            with open('root_solutions.txt') as file:
+                                                fileLines = file.readlines()
+                                            file.close()
+                                            for fileLine in fileLines:
+                                                fileReturn += '\t' + fileLine
                                         client.send(('root\n' + fileReturn).encode('ascii'))
                                     else:
                                         if john:
                                             fileLines = []
                                             fileReturn = ''
-                                            with open('john_solutions.txt') as file:
-                                                fileLines = file.readlines()
-                                            file.close()
-                                            for fileLine in fileLines:
-                                                fileReturn += '\t' + fileLine
+                                            if file_empty('john_solutions.txt'):
+                                                fileReturn = '\tNo interactions yet\n'
+                                            else:
+                                                with open('john_solutions.txt') as file:
+                                                    fileLines = file.readlines()
+                                                file.close()
+                                                for fileLine in fileLines:
+                                                    fileReturn += '\t' + fileLine
                                             client.send(('john\n' + fileReturn).encode('ascii'))
                                         else:
                                             if sally:
                                                 fileLines = []
                                                 fileReturn = ''
-                                                with open('sally_solutions.txt') as file:
-                                                    fileLines = file.readlines()
-                                                file.close()
-                                                for fileLine in fileLines:
-                                                    fileReturn += '\t' + fileLine
+                                                if file_empty('sally_solutions.txt'):
+                                                    fileReturn = '\tNo interactions yet\n'
+                                                else:
+                                                    with open('sally_solutions.txt') as file:
+                                                        fileLines = file.readlines()
+                                                    file.close()
+                                                    for fileLine in fileLines:
+                                                        fileReturn += '\t' + fileLine
                                                 client.send(('sally\n' + fileReturn).encode('ascii'))
                                             else:
                                                 if qiang:
                                                     fileLines = []
                                                     fileReturn = ''
-                                                    with open('qiang_solutions.txt') as file:
-                                                        fileLines = file.readlines()
-                                                    file.close()
-                                                    for fileLine in fileLines:
-                                                        fileReturn += '\t' + fileLine
+                                                    if file_empty('qiang_solutions.txt'):
+                                                        fileReturn = '\tNo interactions yet\n'
+                                                    else:
+                                                        with open('qiang_solutions.txt') as file:
+                                                            fileLines = file.readlines()
+                                                        file.close()
+                                                        for fileLine in fileLines:
+                                                            fileReturn += '\t' + fileLine
                                                     client.send(('qiang\n' + fileReturn).encode('ascii'))
                                 else:
                                     flag, end = rhs.split(' ', 1)
@@ -256,39 +276,51 @@ def commands(client):
                                             totalReturn = ''
                                             fileLines_root = []
                                             fileReturn_root = ''
-                                            with open('root_solutions.txt') as file_root:
-                                                fileLines_root = file_root.readlines()
-                                            file_root.close()
-                                            for fileLine_root in fileLines_root:
-                                                fileReturn_root += '\t' + fileLine_root
+                                            if file_empty('root_solutions.txt'):
+                                                fileReturn_root = '\tNo interactions yet\n'
+                                            else:
+                                                with open('root_solutions.txt') as file_root:
+                                                    fileLines_root = file_root.readlines()
+                                                file_root.close()
+                                                for fileLine_root in fileLines_root:
+                                                    fileReturn_root += '\t' + fileLine_root
                                             totalReturn += 'root\n' + fileReturn_root
 
                                             fileLines_john = []
                                             fileReturn_john = ''
-                                            with open('john_solutions.txt') as file_john:
-                                                fileLines_john = file_john.readlines()
-                                            file_john.close()
-                                            for fileLine_john in fileLines_john:
-                                                fileReturn_john += '\t' + fileLine_john
-                                            totalReturn += '\njohn\n' + fileReturn_john
+                                            if file_empty('john_solutions.txt'):
+                                                fileReturn_john = '\tNo interactions yet\n'
+                                            else:
+                                                with open('john_solutions.txt') as file_john:
+                                                    fileLines_john = file_john.readlines()
+                                                file_john.close()
+                                                for fileLine_john in fileLines_john:
+                                                    fileReturn_john += '\t' + fileLine_john
+                                            totalReturn += 'john\n' + fileReturn_john
 
                                             fileLines_sally = []
                                             fileReturn_sally = ''
-                                            with open('sally_solutions.txt') as file_sally:
-                                                fileLines_sally = file_sally.readlines()
-                                            file_sally.close()
-                                            for fileLine_sally in fileLines_sally:
-                                                fileReturn_sally += '\t' + fileLine_sally
-                                            totalReturn += '\nsally\n' + fileReturn_sally
+                                            if file_empty('sally_solutions.txt'):
+                                                fileReturn_sally = '\tNo interactions yet\n'
+                                            else:
+                                                with open('sally_solutions.txt') as file_sally:
+                                                    fileLines_sally = file_sally.readlines()
+                                                file_sally.close()
+                                                for fileLine_sally in fileLines_sally:
+                                                    fileReturn_sally += '\t' + fileLine_sally
+                                            totalReturn += 'sally\n' + fileReturn_sally
 
                                             fileLines_qiang = []
                                             fileReturn_qiang = ''
-                                            with open('qiang_solutions.txt') as file_qiang:
-                                                fileLines_qiang = file_qiang.readlines()
-                                            file_qiang.close()
-                                            for fileLine_qiang in fileLines_qiang:
-                                                fileReturn_qiang += '\t' + fileLine_qiang
-                                            totalReturn += '\nqiang\n' + fileReturn_qiang
+                                            if file_empty('qiang_solutions.txt'):
+                                                fileReturn_qiang = '\tNo interactions yet\n'
+                                            else:
+                                                with open('qiang_solutions.txt') as file_qiang:
+                                                    fileLines_qiang = file_qiang.readlines()
+                                                file_qiang.close()
+                                                for fileLine_qiang in fileLines_qiang:
+                                                    fileReturn_qiang += '\t' + fileLine_qiang
+                                            totalReturn += 'qiang\n' + fileReturn_qiang
                                             client.send(totalReturn.encode('ascii'))
 
                                         else:
