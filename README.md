@@ -1,4 +1,33 @@
 # CIS427-Project1
 
-This project contains a Server Client command interaction that allows logins and logouts to solve circle or rectangle calculations which are logged to the login
-rest of report is in other Readme file
+This project contains a Server Client command interaction 
+
+Commands Implemented:
+  LOGIN
+    login from client must match format of 'LOGIN user pws'
+    login creds are checked aginst local login file creds
+  LOGOUT
+    clears the current logged in person
+  SOLVE
+    checks if logged in and the checks fomat of the valid inputs
+      -c #
+        calculates circle
+      -r #
+        calculates square
+      -r # #
+        calculates rectangle
+  LIST
+    checks who is logged in and return the current users list informantion
+    returns SOLVE infomation
+      -all
+        check if current user is root and the returns everyones SOLVE infomation
+  SHUTDOWN
+    Check User if root and then changes the SHUTDOWN flag and finishs the script
+
+Build and Running
+  Must run server before the client and then you can restart client if need be
+  
+Bugs or Errors
+  Fixed the ones I have found
+  
+Sample code screenshot are in the pdf file appened as README.pdf
