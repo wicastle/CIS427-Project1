@@ -1,0 +1,2 @@
+SOLVE -c 1
+Circle`s circumference  is 6.28 and area is 3.14
